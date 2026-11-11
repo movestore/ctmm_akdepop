@@ -49,7 +49,7 @@ the *Variogram* App to evaluate whether this property holds for your data.
 The input must contain at least 2 animals.
 
 ### Input type
-`ctmm UD with Data and Model`: a list with three elements, as produced by the
+`ctmm ud with data`: a list with three elements, as produced by the
 *Autocorrelated Kernel Density Estimate (aKDE)* App:
 
 1. `model`: a list containing the selected `ctmm` model for each animal.
@@ -58,7 +58,7 @@ The input must contain at least 2 animals.
 3. `data`: the tracking data (an object of type `telemetry.list`).
 
 ### Output type
-`ctmm UD with Data and Model`: the input, unchanged.
+`ctmm ud with data`: the input, unchanged.
 
 ### Artefacts
 `akdepop_summary.csv`: a table of the three area estimates. It contains the
@@ -122,6 +122,10 @@ individual UDs.
 The areas are calculated with ctmm's `summary()` method for UDs, the contours
 with `ctmm::SpatialPolygonsDataFrame.UD()` and the rasters with ctmm's
 `writeRaster()` method for UDs.
+
+Note: ctmm 1.3.x does not mark holes within a contour. This App identifies
+nested contour rings so that areas inside the outer contour that are not part
+of the distribution at the 95% level are left out of the output polygons.
 
 The population-level inference of home range areas is described in Fleming,
 C. H., Deznabi, I., Alavi, S., Crofoot, M. C., Hirsch, B. T., Medici, E. P.,
