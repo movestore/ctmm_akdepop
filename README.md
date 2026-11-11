@@ -123,6 +123,10 @@ The areas are calculated with ctmm's `summary()` method for UDs, the contours
 with `ctmm::SpatialPolygonsDataFrame.UD()` and the rasters with ctmm's
 `writeRaster()` method for UDs.
 
+Note: ctmm 1.3.x does not mark holes within a contour. This App identifies
+nested contour rings so that areas inside the outer contour that are not part
+of the distribution at the 95% level are left out of the output polygons.
+
 The population-level inference of home range areas is described in Fleming,
 C. H., Deznabi, I., Alavi, S., Crofoot, M. C., Hirsch, B. T., Medici, E. P.,
 Noonan, M. J., Kays, R., Fagan, W. F., Sheldon, D., & Calabrese, J. M.

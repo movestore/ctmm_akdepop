@@ -1,6 +1,38 @@
 library(ctmm)
 library(sf)
 
+# Generate contour polygons for a UD at the given isopleth level. This ensures
+# that internal holes within the contours are correctly left unfilled. At the
+# time of writing, there is a bug in ctmm (1.3.x) that does not mark these
+# holes correctly, meaning that the entire region within the external contour
+# is filled.
+ud_contours <- function(ud, level.UD) {
+  spdf <- ctmm::SpatialPolygonsDataFrame.UD(ud, level.UD = level.UD)
+
+  # Use even-odd rule to identify holes. Contour rings are nested by definition,
+  # so the symmetric difference of all rings keeps the area inside an odd
+  # number of rings and drops the areas inside an even number (holes).
+  geometries <- lapply(spdf@polygons, function(contour) {
+    rings <- lapply(contour@Polygons, function(ring) sf::st_polygon(list(ring@coords)))
+    geom <- Reduce(sf::st_sym_difference, rings)
+
+    # Rings that touch can leave zero-width line fragments in the result.
+    # Keep only the polygon parts.
+    if (inherits(geom, "GEOMETRYCOLLECTION")) {
+      geom <- sf::st_union(sf::st_collection_extract(sf::st_sfc(geom), "POLYGON"))[[1]]
+    }
+
+    sf::st_cast(geom, "MULTIPOLYGON")
+  })
+
+  # Rebuild output to mirror `ctmm::SpatialPolygonsDataFrame.UD()` structure.
+  # Contour names are the ctmm polygon `ID` values.
+  sf::st_sf(
+    name = vapply(spdf@polygons, function(contour) contour@ID, character(1)),
+    geometry = sf::st_sfc(geometries, crs = sf::st_crs(spdf@proj4string))
+  )
+}
+
 rFunction <- function(data) {
   # Population-level estimates need at least 2 individuals. With only one,
   # ctmm still returns results, but the population range is meaningless
@@ -79,10 +111,10 @@ rFunction <- function(data) {
   MEAN@info$identity <- "sample"
   PKDE@info$identity <- "population"
 
-  sf::st_as_sf(ctmm::SpatialPolygonsDataFrame.UD(MEAN, level.UD = 0.95)) |> 
+  ud_contours(MEAN, level.UD = 0.95) |>
     sf::st_write(appArtifactPath("dist_sample.gpkg"), append = FALSE)
   
-  sf::st_as_sf(ctmm::SpatialPolygonsDataFrame.UD(PKDE, level.UD = 0.95)) |> 
+  ud_contours(PKDE, level.UD = 0.95) |>
     sf::st_write(appArtifactPath("dist_pop.gpkg"), append = FALSE) 
   
   writeRaster(MEAN, appArtifactPath("dist_sample.tif"), overwrite = TRUE)
