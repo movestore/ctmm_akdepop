@@ -74,7 +74,7 @@ following columns:
   - `description`: a short description of the quantity.
   - `low`, `est`, `high`: the estimated area and the lower and upper bounds of
     its 95% confidence interval.
-  - `unit`: the unit of the areas (always square kilometers).
+  - `unit`: the unit of the areas (always square meters).
 
 `akdepop_summary.pdf`: a comparison of the home range areas for each animal,
 along with their 95% confidence intervals. The bottom row (`mean`) shows the

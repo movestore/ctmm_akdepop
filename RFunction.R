@@ -77,15 +77,13 @@ rFunction <- function(data) {
   dev.off()
   
   # Summary table of the three area estimates (95% contour, with 95% CIs).
+  # units = FALSE reports all areas in square meters so they are comparable
+  # (ctmm would otherwise pick a unit for each one separately).
   ci_m2 <- rbind(
     meta[1, , drop = FALSE],                         # row "mean" of meta()
     summary(MEAN, units = FALSE)$CI[1, , drop = FALSE],
     summary(PKDE, units = FALSE)$CI[1, , drop = FALSE]
   )
-  
-  # Ensure all outputs are in a standard unit. ctmm otherwise picks an
-  # appropriate unit, for each, but this limits comparability
-  ci_km2 <- ci_m2 / 1e6
 
   summary_table <- data.frame(
     quantity = c(
@@ -98,10 +96,10 @@ rFunction <- function(data) {
       "Area of the combined range of the tracked individuals (mean of their UDs)",
       "Estimated range area of the whole population, including untracked individuals (ctmm::pkde)"
     ),
-    low = ci_km2[, "low"],
-    est = ci_km2[, "est"],
-    high = ci_km2[, "high"],
-    unit = "square kilometers"
+    low = ci_m2[, "low"],
+    est = ci_m2[, "est"],
+    high = ci_m2[, "high"],
+    unit = "square meters"
   )
   write.csv(summary_table, appArtifactPath("akdepop_summary.csv"), row.names = FALSE)
 
