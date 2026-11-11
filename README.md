@@ -63,7 +63,8 @@ The input must contain at least 2 animals.
 ### Artefacts
 `akdepop_summary.csv`: a table of the three area estimates. It contains the
 following columns:
-  - `quantity`: the area being estimated. One of:
+  - `parameter`: the area being estimated and its unit (always square meters).
+    One of:
     - `mean_individual_area`: the mean 95% home range area of an individual
       in the population (from `ctmm::meta()`).
     - `sample_range_area`: the 95% area of the distribution of the sample,
@@ -71,10 +72,9 @@ following columns:
     - `population_range_area`: the 95% area of the distribution of the
       population, i.e. the estimated range of the whole population (from
       `ctmm::pkde()`).
-  - `description`: a short description of the quantity.
+  - `description`: a short description of the parameter.
   - `low`, `est`, `high`: the estimated area and the lower and upper bounds of
     its 95% confidence interval.
-  - `unit`: the unit of the areas (always square meters).
 
 `akdepop_summary.pdf`: a comparison of the home range areas for each animal,
 along with their 95% confidence intervals. The bottom row (`mean`) shows the

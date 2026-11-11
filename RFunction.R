@@ -86,10 +86,10 @@ rFunction <- function(data) {
   )
 
   summary_table <- data.frame(
-    quantity = c(
-      "mean_individual_area",
-      "sample_range_area",
-      "population_range_area"
+    parameter = c(
+      "mean_individual_area (square meters)",
+      "sample_range_area (square meters)",
+      "population_range_area (square meters)"
     ),
     description = c(
       "Mean home-range area of an individual in the population (ctmm::meta)",
@@ -98,8 +98,7 @@ rFunction <- function(data) {
     ),
     low = ci_m2[, "low"],
     est = ci_m2[, "est"],
-    high = ci_m2[, "high"],
-    unit = "square meters"
+    high = ci_m2[, "high"]
   )
   write.csv(summary_table, appArtifactPath("akdepop_summary.csv"), row.names = FALSE)
 
