@@ -49,7 +49,7 @@ the *Variogram* App to evaluate whether this property holds for your data.
 The input must contain at least 2 animals.
 
 ### Input type
-`ctmm UD with Data and Model`: a list with three elements, as produced by the
+`ctmm ud with data`: a list with three elements, as produced by the
 *Autocorrelated Kernel Density Estimate (aKDE)* App:
 
 1. `model`: a list containing the selected `ctmm` model for each animal.
@@ -58,7 +58,7 @@ The input must contain at least 2 animals.
 3. `data`: the tracking data (an object of type `telemetry.list`).
 
 ### Output type
-`ctmm UD with Data and Model`: the input, unchanged.
+`ctmm ud with data`: the input, unchanged.
 
 ### Artefacts
 `akdepop_summary.csv`: a table of the three area estimates. It contains the
