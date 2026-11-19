@@ -121,10 +121,10 @@ rFunction <- function(data) {
   PKDE@info$identity <- "population"
 
   ud_contours(MEAN, level.UD = 0.95) |>
-    sf::st_write(appArtifactPath("dist_sample.gpkg"), append = FALSE)
+    sf::st_write(appArtifactPath("dist_sample.gpkg"), append = FALSE, quiet = TRUE)
   
   ud_contours(PKDE, level.UD = 0.95) |>
-    sf::st_write(appArtifactPath("dist_pop.gpkg"), append = FALSE) 
+    sf::st_write(appArtifactPath("dist_pop.gpkg"), append = FALSE, quiet = TRUE)
   
   writeRaster(MEAN, appArtifactPath("dist_sample.tif"), overwrite = TRUE)
   writeRaster(PKDE, appArtifactPath("dist_pop.tif"), overwrite = TRUE)
