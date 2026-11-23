@@ -119,6 +119,11 @@ with ctmm's [`mean()` method for UDs][3]. The distribution of the population
 is calculated with [`ctmm::pkde()`][2] from the tracking data and the
 individual UDs.
 
+Note that the confidence intervals for the sample and population distributions
+(from ctmm's `mean()` and `pkde()`) are not yet fully implemented and include an
+element of randomness. When population variability is poorly determined, CIs
+may shift between runs. CIs should be interpreted with caution.
+
 The areas are calculated with ctmm's `summary()` method for UDs, the contours
 with `ctmm::SpatialPolygonsDataFrame.UD()` and the rasters with ctmm's
 `writeRaster()` method for UDs.
